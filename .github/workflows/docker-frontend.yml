@@ -1,0 +1,22 @@
+name: Frontend Docker CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build frontend image
+      run: docker build -t thanujkumarkadali89/digitalwallet-frontend:latest .
+
+    - name: Push frontend image
+      run: docker push thanujkumarkadali89/digitalwallet-frontend:latest
